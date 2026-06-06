@@ -2,6 +2,8 @@
 
 A Flappy Bird inspired game built for the [June Solstice Game Jam](https://dev.to/devteam/join-the-june-solstice-game-jam-1000-in-prizes-3jla).
 
+**[🎮 Play the Demo](https://alfredosalzillo.me/flappy-trump/)**
+
 ## Game Premise
 
 Trump is on a mission to drain the world of its vibrancy, leaving only a trail of gray in his wake. As he flies, the very sky behind him loses its color. 
