@@ -104,8 +104,9 @@
 
 .witch-group {
   position: absolute;
-  top: 20px;
+  top: 50%;
   right: 20px;
+  transform: translateY(-50%);
   display: flex;
   gap: 10px;
   z-index: 15;
