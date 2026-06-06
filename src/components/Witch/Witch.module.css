@@ -1,0 +1,157 @@
+.witch-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  animation: broom-ride 4s ease-in-out infinite alternate;
+}
+
+@keyframes broom-ride {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-10px, -5px) rotate(-2deg);
+  }
+  50% {
+    transform: translate(5px, -15px) rotate(2deg);
+  }
+  75% {
+    transform: translate(-5px, -5px) rotate(-1deg);
+  }
+  100% {
+    transform: translate(10px, -20px) rotate(3deg);
+  }
+}
+
+.witch-hat {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 25px solid var(--hat-color, #1a1a1a);
+  position: relative;
+  z-index: 3;
+  transition: border-bottom-color 0.5s ease;
+}
+
+.witch-hat::after {
+  content: '';
+  position: absolute;
+  bottom: -27px;
+  left: -25px;
+  width: 50px;
+  height: 5px;
+  background-color: var(--hat-color, #1a1a1a);
+  border-radius: 50%;
+  transition: background-color 0.5s ease;
+}
+
+.witch-face {
+  width: 25px;
+  height: 25px;
+  background-color: #d1ffd1; /* Pale green witch skin */
+  border-radius: 50%;
+  margin-top: -5px;
+  position: relative;
+  z-index: 2;
+  border: 1px solid #333;
+}
+
+.witch-eye {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 50%;
+  top: 10px;
+  left: 6px;
+  box-shadow: 10px 0 0 #000;
+}
+
+.witch-body {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  margin-top: -5px;
+  z-index: 1;
+}
+
+.witch-pride-cloak {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #ff0000,
+    #ff8c00,
+    #ffff00,
+    #008000,
+    #0000ff,
+    #4b0082,
+    #ee82ee
+  );
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border: 1px solid #333;
+}
+
+.witch-broom {
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background-color: #8b4513;
+  bottom: 5px;
+  left: -5px;
+  border-radius: 2px;
+  transform: rotate(10deg);
+}
+
+.witch-broom::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: -4px;
+  width: 15px;
+  height: 12px;
+  background-color: #daa520;
+  border-radius: 20% 80% 80% 20%;
+}
+
+.witch-magic-wand {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background-color: #fff;
+  right: 20px;
+  top: 30px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 5px #ff00ff;
+  animation: sparkle 1s infinite alternate;
+  transform-origin: bottom center;
+}
+
+.waving {}
+
+.waving .witch-magic-wand {
+  animation: sparkle 1s infinite alternate, wave 0.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(45deg); }
+}
+
+
+@keyframes sparkle {
+  from {
+    opacity: 0.5;
+    box-shadow: 0 0 5px #ff00ff;
+  }
+  to {
+    opacity: 1;
+    box-shadow: 0 0 15px #00ffff;
+  }
+}

@@ -1,0 +1,96 @@
+.pillar {
+  position: absolute;
+  width: 60px;
+  z-index: 5;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  overflow: visible;
+  transition: background 0.5s ease, transform 1.5s ease, opacity 1.5s ease;
+}
+
+.deflagrating {
+  animation: deflagrate 1.5s forwards ease-in;
+  border-color: #000;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes deflagrate {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.1) rotate(2deg);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(0) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+.pillar-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shine 1.5s infinite linear;
+  pointer-events: none;
+}
+
+.pillar-cap {
+  position: absolute;
+  width: 74px;
+  height: 16px;
+  background: inherit;
+  left: -7px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart-emblem {
+  font-size: 14px;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  animation: heartbeat 1s ease-in-out infinite alternate;
+}
+
+@keyframes heartbeat {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+.top {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.top .pillar-cap {
+  bottom: -4px;
+  border-radius: 6px;
+}
+
+.bottom {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.bottom .pillar-cap {
+  top: -4px;
+  border-radius: 6px;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}

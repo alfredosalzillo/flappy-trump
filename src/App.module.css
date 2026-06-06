@@ -1,0 +1,102 @@
+/* Game Styles */
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  background: skyblue;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #555;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.sky-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: linear-gradient(to right, #808080 0%, #808080 calc(var(--trump-x) - 50px), skyblue calc(var(--trump-x) + 50px), skyblue 100%);
+  transition: background 0.1s linear;
+  pointer-events: none;
+}
+
+
+.score-board {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 20;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  color: #333;
+  width: 80%;
+}
+
+.game-over h1 {
+  margin-top: 0;
+  color: #000;
+}
+
+.start-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 20;
+  color: #333;
+  width: 80%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.start-screen h1 {
+  margin-top: 0;
+  color: #000;
+}
+
+.start-screen button, .game-over button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.start-screen button:hover, .game-over button:hover {
+  background: #cc0000;
+}
+
+.witch-group {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 15;
+}

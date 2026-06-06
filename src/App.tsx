@@ -1,121 +1,95 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect } from 'react'
+import clsx from 'clsx'
+import Trump from './components/Trump'
+import Witch from './components/Witch'
+import Pillar from './components/Pillar'
+import Cloud from './components/Cloud'
+import { useGame, GAME_HEIGHT, RainbowColor, TRUMP_X } from './hooks/useGame'
+import classes from './App.module.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {
+    gameStarted,
+    gameOver,
+    score,
+    trumpY,
+    velocity,
+    pipes,
+    isWitchWaving,
+    witchHatColor,
+    startGame,
+    jump,
+  } = useGame()
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        jump()
+      }
+    }
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [jump])
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className={classes['game-container']} onClick={jump} style={{ '--trump-x': `${TRUMP_X + 20}px` } as React.CSSProperties}>
+      <div className={classes['sky-background']} />
+      <div className={classes['score-board']}>Score: {score}</div>
 
-      <div className="ticks"></div>
+      <Cloud top={15} speed={25} opacity={0.6} scale={0.8} isGray />
+      <Cloud top={30} speed={40} opacity={0.4} scale={1.2} isGray />
+      <Cloud top={50} speed={30} opacity={0.5} scale={0.9} isGray />
+      <Cloud top={70} speed={50} opacity={0.3} scale={1.1} isGray />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {!gameStarted && (
+        <div className={classes['start-screen']}>
+          <h1>Flappy Trump: Color Drain</h1>
+          <p>Trump is on a mission to turn the world gray and defeat diversity.</p>
+          <p>The Pride Witch is casting <strong>Diversity Spires</strong> to stop him!</p>
+          <p>Every spire he passes loses its color and deflagrates.</p>
+          <button type="button" onClick={startGame}>
+            Start Mission
+          </button>
+          <p style={{ marginTop: '10px' }}>Press Space or Click to Jump</p>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {gameOver && (
+        <div className={clsx(classes['game-over'], gameOver && classes.active)}>
+          <h1>Mission Failed</h1>
+          <p>Diversity prevailed this time.</p>
+          <p>Final Score: {score}</p>
+          <button type="button" onClick={startGame}>
+            Try Again
+          </button>
+        </div>
+      )}
+
+      <Trump y={trumpY} velocity={velocity} x={TRUMP_X} />
+
+      <div className={classes['witch-group']}>
+        <Witch
+          hatColor={witchHatColor}
+          isWaving={isWitchWaving}
+        />
+      </div>
+
+      {pipes.map((pipe) => (
+        <Pillar
+          key={pipe.id}
+          x={pipe.x}
+          topHeight={pipe.topHeight}
+          gap={pipe.gap}
+          gameHeight={GAME_HEIGHT}
+          type={pipe.type}
+          color={pipe.color}
+          width={pipe.width}
+          horizontalOffset={pipe.horizontalOffset}
+          opacity={pipe.opacity}
+          isDeflagrating={pipe.isDeflagrating}
+        />
+      ))}
+    </div>
   )
 }
 

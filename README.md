@@ -1,10 +1,26 @@
-# Flappy Trump vs. The Rainbow Witch
+# Flappy Trump: Color Drain
 
 A Flappy Bird inspired game built for the [June Solstice Game Jam](https://dev.to/devteam/join-the-june-solstice-game-jam-1000-in-prizes-3jla).
 
 ## Game Premise
 
-Trump must escape from the pride month woke rainbow witch who is launching spells at him. Fly through the obstacles and avoid the magical attacks to survive!
+Trump is on a mission to drain the world of its vibrancy, leaving only a trail of gray in his wake. As he flies, the very sky behind him loses its color. 
+
+Standing in his way is the **Pride Witch**, a guardian of diversity who casts **Diversity Spires**—magical rainbow pillars—to block his path. Each spire represents a different facet of diversity celebrated during Pride Month, and they possess unique magical properties based on their color.
+
+When Trump successfully navigates past a spire, its magic is drained; it turns black and deflagrates, symbolizing his attempt to defeat diversity.
+
+## Diversity Spires & Powers
+
+The Pride Witch's magic manifests in seven colors, each with a unique effect:
+
+- **Red (Passion)**: Wider pillars that require more precise timing.
+- **Orange (Energy)**: Vibrating pillars that create unpredictable hitboxes.
+- **Yellow (Sunlight)**: Pillars with gaps that move up and down.
+- **Green (Growth)**: Spires that expand and contract as they move.
+- **Blue (Serenity)**: Spells that slow down time when Trump is near.
+- **Indigo (Vision)**: Pulsing spires that fade in and out of visibility.
+- **Violet (Spirit)**: Gravity-shifting spires that kick Trump up or down.
 
 ## Tech Stack
 
