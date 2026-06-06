@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useRef } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 
 // Game Constants
 export const GRAVITY = 0.5
@@ -114,52 +114,54 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       let currentPipeSpeed = PIPE_SPEED
 
       // Process proximity power (Blue - Slow Motion)
-      const bluePillar = state.pipes.find(p => p.color === RainbowColor.BLUE && Math.abs(p.x - TRUMP_X) < 150)
+      const bluePillar = state.pipes.find(
+        (p) => p.color === RainbowColor.BLUE && Math.abs(p.x - TRUMP_X) < 150,
+      )
       if (bluePillar) {
-          currentGravity *= 0.8
-          currentPipeSpeed *= 0.8
+        currentGravity *= 0.8
+        currentPipeSpeed *= 0.8
       }
 
       const nextPipes = state.pipes
         .map((pipe) => {
-            let nextX = pipe.x - currentPipeSpeed
-            let nextTopHeight = pipe.topHeight
-            let nextGap = pipe.gap
-            let nextHorizontalOffset = pipe.horizontalOffset
-            let nextOpacity = pipe.opacity
+          const nextX = pipe.x - currentPipeSpeed
+          let nextTopHeight = pipe.topHeight
+          let nextGap = pipe.gap
+          let nextHorizontalOffset = pipe.horizontalOffset
+          let nextOpacity = pipe.opacity
 
-            // Yellow - Moving Gap
-            if (pipe.color === RainbowColor.YELLOW) {
-                nextTopHeight += Math.sin(Date.now() / 500) * 2
-            }
-            // Green - Growth Spire (Changing gap)
-            if (pipe.color === RainbowColor.GREEN) {
-                nextGap = PIPE_GAP + Math.sin(Date.now() / 1000) * 30
-            }
-            // Orange - Vibrating Spire
-            if (pipe.color === RainbowColor.ORANGE) {
-                nextHorizontalOffset = Math.sin(Date.now() / 50) * 5
-            }
-            // Indigo - Invisibility Pulse
-            if (pipe.color === RainbowColor.INDIGO) {
-                nextOpacity = 0.6 + Math.sin(Date.now() / 300) * 0.4
-            }
-            // Violet - Gravity Flux
-            if (pipe.color === RainbowColor.VIOLET && Math.abs(pipe.x - TRUMP_X) < 40) {
-                // We'll handle gravity flux by temporarily modifying velocity if needed, 
-                // but for now let's just make it a visual pulse or a quick gravity kick.
-                // Actually, let's just modify currentGravity for this frame.
-                currentGravity *= 1.5
-            }
+          // Yellow - Moving Gap
+          if (pipe.color === RainbowColor.YELLOW) {
+            nextTopHeight += Math.sin(Date.now() / 500) * 2
+          }
+          // Green - Growth Spire (Changing gap)
+          if (pipe.color === RainbowColor.GREEN) {
+            nextGap = PIPE_GAP + Math.sin(Date.now() / 1000) * 30
+          }
+          // Orange - Vibrating Spire
+          if (pipe.color === RainbowColor.ORANGE) {
+            nextHorizontalOffset = Math.sin(Date.now() / 50) * 5
+          }
+          // Indigo - Invisibility Pulse
+          if (pipe.color === RainbowColor.INDIGO) {
+            nextOpacity = 0.6 + Math.sin(Date.now() / 300) * 0.4
+          }
+          // Violet - Gravity Flux
+          if (pipe.color === RainbowColor.VIOLET && Math.abs(pipe.x - TRUMP_X) < 40) {
+            // We'll handle gravity flux by temporarily modifying velocity if needed,
+            // but for now let's just make it a visual pulse or a quick gravity kick.
+            // Actually, let's just modify currentGravity for this frame.
+            currentGravity *= 1.5
+          }
 
-            return { 
-                ...pipe, 
-                x: nextX, 
-                topHeight: nextTopHeight, 
-                gap: nextGap, 
-                horizontalOffset: nextHorizontalOffset,
-                opacity: nextOpacity
-            }
+          return {
+            ...pipe,
+            x: nextX,
+            topHeight: nextTopHeight,
+            gap: nextGap,
+            horizontalOffset: nextHorizontalOffset,
+            opacity: nextOpacity,
+          }
         })
         .filter((pipe) => pipe.x + pipe.width > 0)
 
@@ -178,8 +180,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
 
         if (pipe.isDeflagrating) {
-            // After 3 seconds of being passed, we can remove it or just let it be handled by the filter
-            // But let's actually handle the "remove" via the filter if x + width < -100 or something
+          // After 3 seconds of being passed, we can remove it or just let it be handled by the filter
+          // But let's actually handle the "remove" via the filter if x + width < -100 or something
         }
 
         if (!pipe.passed && effectiveX + pipe.width < TRUMP_X) {
@@ -234,7 +236,8 @@ export function useGame() {
   const startGame = () => {
     dispatch({ type: 'START_GAME' })
     lastPipeSpawnRef.current = Date.now()
-    nextSpawnDelayRef.current = Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN) + SPAWN_INTERVAL_MIN
+    nextSpawnDelayRef.current =
+      Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN) + SPAWN_INTERVAL_MIN
   }
 
   const jump = () => {
@@ -254,30 +257,31 @@ export function useGame() {
         let type: 'both' | 'top' | 'bottom' = 'both'
         if (typeRand < 0.33) type = 'top'
         else if (typeRand < 0.66) type = 'bottom'
-        
+
         const currentHatColor = witchHatColorRef.current
-        
-        dispatch({ 
-            type: 'SPAWN_PIPE', 
-            payload: { 
-                pipe: { 
-                    id: Date.now(), 
-                    x: GAME_WIDTH - 1, 
-                    topHeight, 
-                    passed: false, 
-                    isDeflagrating: false,
-                    type, 
-                    color: currentHatColor,
-                    width: currentHatColor === RainbowColor.RED ? PIPE_WIDTH * 1.5 : PIPE_WIDTH,
-                    gap: PIPE_GAP,
-                    powerType: currentHatColor
-                },
-                hatColor: RAINBOW_COLORS[Math.floor(Math.random() * RAINBOW_COLORS.length)]
-            } 
+
+        dispatch({
+          type: 'SPAWN_PIPE',
+          payload: {
+            pipe: {
+              id: Date.now(),
+              x: GAME_WIDTH - 1,
+              topHeight,
+              passed: false,
+              isDeflagrating: false,
+              type,
+              color: currentHatColor,
+              width: currentHatColor === RainbowColor.RED ? PIPE_WIDTH * 1.5 : PIPE_WIDTH,
+              gap: PIPE_GAP,
+              powerType: currentHatColor,
+            },
+            hatColor: RAINBOW_COLORS[Math.floor(Math.random() * RAINBOW_COLORS.length)],
+          },
         })
 
         lastPipeSpawnRef.current = now
-        nextSpawnDelayRef.current = Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN) + SPAWN_INTERVAL_MIN
+        nextSpawnDelayRef.current =
+          Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN) + SPAWN_INTERVAL_MIN
       }
 
       gameLoopRef.current = requestAnimationFrame(update)

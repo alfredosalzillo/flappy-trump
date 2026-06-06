@@ -22,6 +22,12 @@ The Pride Witch's magic manifests in seven colors, each with a unique effect:
 - **Indigo (Vision)**: Pulsing spires that fade in and out of visibility.
 - **Violet (Spirit)**: Gravity-shifting spires that kick Trump up or down.
 
+## Challenge Criteria Highlights
+
+- **Pride Month:** Features a Pride Witch and Diversity Spires based on the pride flag colors.
+- **Solstice:** Theme of transition between light (diversity) and darkness (color drain).
+- **Ode to Alan Turing:** The game score is displayed exclusively in **binary** as a tribute to the father of modern computing and his legacy.
+
 ## Tech Stack
 
 - **Framework:** React

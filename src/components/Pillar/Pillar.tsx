@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { RainbowColor } from '../../hooks/useGame'
+import type { RainbowColor } from '../../hooks/useGame'
 import classes from './Pillar.module.css'
 
 type PillarProps = {
@@ -15,7 +15,18 @@ type PillarProps = {
   isDeflagrating?: boolean
 }
 
-const Pillar = ({ x, topHeight, gap, gameHeight, type, color, width, horizontalOffset, opacity, isDeflagrating }: PillarProps) => {
+const Pillar = ({
+  x,
+  topHeight,
+  gap,
+  gameHeight,
+  type,
+  color,
+  width,
+  horizontalOffset,
+  opacity,
+  isDeflagrating,
+}: PillarProps) => {
   const effectiveX = x + (horizontalOffset || 0)
   const pillarWidth = width || 60
   const capWidth = pillarWidth + 14
@@ -31,16 +42,13 @@ const Pillar = ({ x, topHeight, gap, gameHeight, type, color, width, horizontalO
             left: effectiveX,
             top: 0,
             height: topHeight,
-            background: isDeflagrating ? '#1a1a1a' : (color || undefined),
+            background: isDeflagrating ? '#1a1a1a' : color || undefined,
             width: pillarWidth,
             opacity: opacity ?? 1,
           }}
         >
           <div className={classes['pillar-glow']} />
-          <div
-            className={classes['pillar-cap']}
-            style={{ width: capWidth, left: capLeft }}
-          >
+          <div className={classes['pillar-cap']} style={{ width: capWidth, left: capLeft }}>
             <span className={classes['heart-emblem']}>❤</span>
           </div>
         </div>
@@ -53,16 +61,13 @@ const Pillar = ({ x, topHeight, gap, gameHeight, type, color, width, horizontalO
             left: effectiveX,
             top: topHeight + gap,
             height: gameHeight - topHeight - gap,
-            background: isDeflagrating ? '#1a1a1a' : (color || undefined),
+            background: isDeflagrating ? '#1a1a1a' : color || undefined,
             width: pillarWidth,
             opacity: opacity ?? 1,
           }}
         >
           <div className={classes['pillar-glow']} />
-          <div
-            className={classes['pillar-cap']}
-            style={{ width: capWidth, left: capLeft }}
-          >
+          <div className={classes['pillar-cap']} style={{ width: capWidth, left: capLeft }}>
             <span className={classes['heart-emblem']}>❤</span>
           </div>
         </div>

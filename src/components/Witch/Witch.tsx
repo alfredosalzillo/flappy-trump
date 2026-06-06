@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { RainbowColor } from '../../hooks/useGame'
+import type { RainbowColor } from '../../hooks/useGame'
 import classes from './Witch.module.css'
 
 type WitchProps = {

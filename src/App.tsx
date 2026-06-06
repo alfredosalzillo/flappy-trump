@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
 import clsx from 'clsx'
+import { useEffect } from 'react'
+import classes from './App.module.css'
+import Cloud from './components/Cloud'
+import Pillar from './components/Pillar'
 import Trump from './components/Trump'
 import Witch from './components/Witch'
-import Pillar from './components/Pillar'
-import Cloud from './components/Cloud'
-import { useGame, GAME_HEIGHT, RainbowColor, TRUMP_X } from './hooks/useGame'
-import classes from './App.module.css'
+import { GAME_HEIGHT, TRUMP_X, useGame } from './hooks/useGame'
 
 function App() {
   const {
@@ -32,9 +32,15 @@ function App() {
   }, [jump])
 
   return (
-    <div className={classes['game-container']} onClick={jump} style={{ '--trump-x': `${TRUMP_X + 20}px` } as React.CSSProperties}>
+    <div
+      className={classes['game-container']}
+      onClick={jump}
+      style={{ '--trump-x': `${TRUMP_X + 20}px` } as React.CSSProperties}
+    >
       <div className={classes['sky-background']} />
-      <div className={classes['score-board']}>Score: {score}</div>
+      <div className={classes['score-board']}>
+        <div className={classes['binary-score']}>{score.toString(2).padStart(8, '0')}</div>
+      </div>
 
       <Cloud top={15} speed={25} opacity={0.6} scale={0.8} isGray />
       <Cloud top={30} speed={40} opacity={0.4} scale={1.2} isGray />
@@ -45,7 +51,9 @@ function App() {
         <div className={classes['start-screen']}>
           <h1>Flappy Trump: Color Drain</h1>
           <p>Trump is on a mission to turn the world gray and defeat diversity.</p>
-          <p>The Pride Witch is casting <strong>Diversity Spires</strong> to stop him!</p>
+          <p>
+            The Pride Witch is casting <strong>Diversity Spires</strong> to stop him!
+          </p>
           <p>Every spire he passes loses its color and deflagrates.</p>
           <button type="button" onClick={startGame}>
             Start Mission
@@ -58,7 +66,7 @@ function App() {
         <div className={clsx(classes['game-over'], gameOver && classes.active)}>
           <h1>Mission Failed</h1>
           <p>Diversity prevailed this time.</p>
-          <p>Final Score: {score}</p>
+          <p>Final Score: {score.toString(2).padStart(8, '0')}</p>
           <button type="button" onClick={startGame}>
             Try Again
           </button>
@@ -68,10 +76,7 @@ function App() {
       <Trump y={trumpY} velocity={velocity} x={TRUMP_X} />
 
       <div className={classes['witch-group']}>
-        <Witch
-          hatColor={witchHatColor}
-          isWaving={isWitchWaving}
-        />
+        <Witch hatColor={witchHatColor} isWaving={isWitchWaving} />
       </div>
 
       {pipes.map((pipe) => (

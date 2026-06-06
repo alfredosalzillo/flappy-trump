@@ -34,6 +34,16 @@
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.binary-score {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 24px;
+  opacity: 0.9;
+  margin-top: 4px;
 }
 
 .game-over {
