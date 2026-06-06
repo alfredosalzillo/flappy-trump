@@ -17,19 +17,23 @@ function App() {
     pipes,
     isWitchWaving,
     witchHatColor,
+    isPaused,
     startGame,
     jump,
+    togglePause,
   } = useGame()
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.code === 'Space') {
         jump()
+      } else if (e.key.toLowerCase() === 'p') {
+        togglePause()
       }
     }
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [jump])
+  }, [jump, togglePause])
 
   return (
     <div
@@ -41,6 +45,26 @@ function App() {
       <div className={classes['score-board']}>
         <div className={classes['binary-score']}>{score.toString(2).padStart(8, '0')}</div>
       </div>
+
+      {gameStarted && !gameOver && (
+        <button
+          type="button"
+          className={classes['pause-button']}
+          onClick={(e) => {
+            e.stopPropagation()
+            togglePause()
+          }}
+        >
+          {isPaused ? '▶' : '||'}
+        </button>
+      )}
+
+      {isPaused && (
+        <div className={classes['pause-overlay']}>
+          <h1>PAUSED</h1>
+          <p>Press 'P' or click the button to Resume</p>
+        </div>
+      )}
 
       <Cloud top={15} speed={25} opacity={0.6} scale={0.8} isGray />
       <Cloud top={30} speed={40} opacity={0.4} scale={1.2} isGray />

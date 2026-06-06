@@ -56,6 +56,7 @@ type GameState = {
   pipes: Pipe[]
   isWitchWaving: boolean
   witchHatColor: RainbowColor
+  isPaused: boolean
 }
 
 type GameAction =
@@ -64,6 +65,7 @@ type GameAction =
   | { type: 'UPDATE'; payload: { now: number; spawnDelay: number } }
   | { type: 'GAME_OVER' }
   | { type: 'SPAWN_PIPE'; payload: { pipe: Pipe; hatColor: RainbowColor } }
+  | { type: 'TOGGLE_PAUSE' }
 
 const initialState: GameState = {
   gameStarted: false,
@@ -74,6 +76,7 @@ const initialState: GameState = {
   pipes: [],
   isWitchWaving: false,
   witchHatColor: RAINBOW_COLORS[Math.floor(Math.random() * RAINBOW_COLORS.length)],
+  isPaused: false,
 }
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -87,10 +90,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (!state.gameStarted) {
         return { ...initialState, gameStarted: true }
       }
-      if (state.gameOver) return state
+      if (state.gameOver || state.isPaused) return state
       return {
         ...state,
         velocity: JUMP_STRENGTH,
+      }
+    case 'TOGGLE_PAUSE':
+      if (!state.gameStarted || state.gameOver) return state
+      return {
+        ...state,
+        isPaused: !state.isPaused,
       }
     case 'GAME_OVER':
       return {
@@ -98,7 +107,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         gameOver: true,
       }
     case 'UPDATE': {
-      if (!state.gameStarted || state.gameOver) return state
+      if (!state.gameStarted || state.gameOver || state.isPaused) return state
 
       // Update Trump position
       let nextTrumpY = state.trumpY + state.velocity
@@ -210,6 +219,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       }
     }
     case 'SPAWN_PIPE': {
+      if (state.isPaused) return state
       return {
         ...state,
         pipes: [...state.pipes, action.payload.pipe],
@@ -244,8 +254,12 @@ export function useGame() {
     dispatch({ type: 'JUMP' })
   }
 
+  const togglePause = () => {
+    dispatch({ type: 'TOGGLE_PAUSE' })
+  }
+
   useEffect(() => {
-    if (!state.gameStarted || state.gameOver) return
+    if (!state.gameStarted || state.gameOver || state.isPaused) return
 
     const update = () => {
       const now = Date.now()
@@ -297,5 +311,6 @@ export function useGame() {
     ...state,
     startGame,
     jump,
+    togglePause,
   }
 }
